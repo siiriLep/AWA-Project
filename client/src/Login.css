@@ -1,0 +1,14 @@
+
+
+
+
+form {
+    margin: auto;
+    border-radius: 25px;
+    padding: 30px;
+    background-color: #fed4cd;
+    max-width: 400px;
+    min-height: 500px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px; /*https://getcssscan.com/css-box-shadow-examples #37*/
+}
+
