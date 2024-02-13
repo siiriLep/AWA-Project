@@ -30,7 +30,9 @@ function Login() {
             <br></br>
             <Button variant="contained" type="submit" id="login" style={{background: '#ffb7a8', minWidth: '277px', color:"black"}} >Log in</Button>
             <p>New to Tinteri?</p>
+            <a href="/register">
             <Button variant="contained" type="button" id="signup" style={{background: '#ffb7a8', minWidth: '277px', color:"black"}} >Sign up</Button>
+            </a>
         </form>
     </div>
 
