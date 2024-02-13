@@ -6,7 +6,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "install": "cd client && npm install",
-    "dev:client": "cd client && npm start"
+    "dev:client": "cd client && npm start",
+    "preinstall": "cd server && npm install",
+    "dev:server": "cd server && npm run dev"
   },
   "author": "",
   "license": "ISC"
