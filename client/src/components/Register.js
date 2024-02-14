@@ -7,13 +7,18 @@ import InputAdornment from '@mui/material/InputAdornment';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import {useState} from 'react'
 
+// Function to handle registering new users
 function Register() {
+
+  // DIV to show the user if registeration was succesful
+  const responseDiv = document.getElementById("response")
 
   const [userData, setUserData] = useState({})
 
   const submit = (e) => {
     e.preventDefault()
 
+    // POST request to server with register form
     fetch("api/user/register", {
       method: "POST",
       headers: {
@@ -22,19 +27,21 @@ function Register() {
       body: JSON.stringify(userData),
       mode: "cors"
     })
-    .then(response => {
-      console.log(response)
+    .then(response => response.json())
+    .then(data => {
+      // Display the response from server if registeration was succesful
+      responseDiv.textContent = data.message
     })
 
   }
 
-    
+  // Handles change in the form
   const handleChange = (e) => {
     setUserData({...userData, [e.target.name]: e.target.value})
 }
 
 
-  // returns the register form
+  // Returns the register form
   return (
 
     <div>
@@ -64,6 +71,7 @@ function Register() {
                       }} />
             <br></br>
             <Button variant="contained" type="submit" id="register" style={{background: '#ffb7a8', minWidth: '277px', color:"black"}} >Sign in</Button>
+            <div id="response"></div>
             <p>Already a user?</p>
             <a href="/">
             <Button variant="contained" type="button" id="login-redirect" style={{background: '#ffb7a8', minWidth: '277px', color:"black"}} >Log in</Button>

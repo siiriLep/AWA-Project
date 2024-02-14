@@ -5,9 +5,9 @@ const User = require('../models/User');
 router.post('/user/register', function(req, res, next) {
     
     // Check if user with the given email already exists
-    User.findOne({ email: req.body.email}).then((email) => { // Tutki mogon or:ia nii saa usernamen mukaan :)
-        if (email) {
-            return res.status(403).json({ message: "Email already in use" })
+    User.findOne({ $or: [{ email: req.body.email }, { username: req.body.username }] }).then((user) => { // Tutki mogon or:ia nii saa usernamen mukaan :)
+        if (user) {
+            return res.status(403).json({ message: "Email or username already in use" })
         } else {
             console.log(req.body)
             User.create({
@@ -15,7 +15,7 @@ router.post('/user/register', function(req, res, next) {
                 email: req.body.email,
                 password: req.body.password
             })
-            return res.sendStatus(200)
+            return res.status(200).json({ message: "Success"})
         }
     })
 
