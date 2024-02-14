@@ -1,7 +1,7 @@
 
-form {
+#main {
     margin: auto;
-    margin-top: 40px;
+    margin-top: 60px;
     border-radius: 25px;
     padding: 30px;
     background-color: #fed4cd;
@@ -10,12 +10,8 @@ form {
     box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px; /*https://getcssscan.com/css-box-shadow-examples #37*/
 }
 
-#response {
-    margin: auto;
-    padding: 3px;
-    width: 277px;
-    height: 20px;
-    font-weight: bold;
+#btn {
+    border-radius: 10px;
+    margin-bottom: 20px;
 
 }
-

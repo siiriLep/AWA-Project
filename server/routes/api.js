@@ -2,9 +2,14 @@ var express = require('express');
 var router = express.Router();
 const User = require('../models/User');
 const bcrypt = require('bcryptjs')
+const jwt = require('jsonwebtoken')
+const passport = require('passport')
 
-router.post('/user/register', function(req, res, next) {
-    
+
+router.post('/user/register', (req, res, next) => {
+        if(!req.body.email || !req.body.password) {
+        return res.status(401).json({ message: "Fill required fields" })
+    }
     // Check if user with the given email or username already exists
     User.findOne({ $or: [{ email: req.body.email }, { username: req.body.username }] }).then((user) => { 
         if (user) {
@@ -26,5 +31,36 @@ router.post('/user/register', function(req, res, next) {
     })
 
 });
+
+router.post('/user/login', (req, res, next) => {
+
+    console.log(req.body)
+    // Try to find the user
+    User.findOne({ email: req.body.email}).then((user) => {
+        if (!user) { // If user is not found send message
+            return res.status(401).json({ message: "Invalid credentials" })
+        } else { // Check if password is correct
+            bcrypt.compare(req.body.password, user.password, (err, isMatch) => {
+                if (err) {
+                    throw err
+                }
+                if (isMatch) {  
+                    const body = { _id: user._id, email: user.email };
+                    const token = jwt.sign({ user: body }, 'TOP_SECRET');
+                    return res.json({ token });
+                    //return res.status(200).json({ message: "Success"})
+                } else { // Send message to user if the password is wrong
+                    return res.status(401).json({ message: "Invalid credentials" })
+                }
+            })
+
+        }
+    })
+})
+
+
+router.get('/main', passport.authenticate('jwt', {session: false}), (req, res) => {
+    return res.status(200).json({email: req.user.email})
+})
 
 module.exports = router;

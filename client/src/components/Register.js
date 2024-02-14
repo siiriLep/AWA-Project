@@ -41,7 +41,7 @@ function Register() {
   // Handles change in the form
   const handleChange = (e) => {
     setUserData({...userData, [e.target.name]: e.target.value})
-}
+  }
 
 
   // Returns the register form
@@ -51,21 +51,21 @@ function Register() {
         <br></br>
         <form id="register" onSubmit={submit} onChange={handleChange}>
             <h1>Sign in</h1>
-            <TextField id="user" label="Username" name="username" variant="outlined" margin="normal" InputProps={{
+            <TextField id="user" label="Username" name="username" variant="outlined" margin="normal" required InputProps={{
                         startAdornment: (
                           <InputAdornment position="start">
                             <AccountCircleOutlinedIcon />
                           </InputAdornment>
                         ),
                       }} />
-            <TextField id="email" label="Email" name="email" variant="outlined" margin="normal" InputProps={{
+            <TextField id="email" label="Email" name="email" variant="outlined" margin="normal" required InputProps={{
                         startAdornment: (
                           <InputAdornment position="start">
                             <EmailOutlinedIcon />
                           </InputAdornment>
                         ),
                       }} />
-            <TextField id="outlined-password-input" type='password' name="password" label="Password" variant="outlined" margin="normal"InputProps={{
+            <TextField id="outlined-password-input" type='password' name="password" label="Password" variant="outlined" margin="normal" required InputProps={{
                         startAdornment: (
                           <InputAdornment position="start">
                             <LockOpenOutlinedIcon />
