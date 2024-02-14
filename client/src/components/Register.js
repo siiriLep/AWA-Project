@@ -10,7 +10,7 @@ import {useState} from 'react'
 // Function to handle registering new users
 function Register() {
 
-  // DIV to show the user if registeration was succesful
+  // DIV to show the user if there are problems in registering
   const responseDiv = document.getElementById("response")
 
   const [userData, setUserData] = useState({})
@@ -29,12 +29,15 @@ function Register() {
     })
     .then(response => response.json())
     .then(data => {
-      // Display the response from server if registeration was succesful
-      responseDiv.textContent = data.message
+      // If user creation was succesful, redirect to login page
+      if (data.message === "Success") {
+        window.location.href="/"
+      } else { // If not, show the error message to user
+        responseDiv.textContent = data.message
+      }
     })
 
   }
-
   // Handles change in the form
   const handleChange = (e) => {
     setUserData({...userData, [e.target.name]: e.target.value})
