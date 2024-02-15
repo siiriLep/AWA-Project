@@ -44,6 +44,7 @@ router.post('/user/register', (req, res, next) => {
                     if (err) throw err
                     User.create({
                         username: req.body.username,
+                        about: 'Hello!',
                         email: req.body.email,
                         password: hash
                     })
@@ -86,7 +87,14 @@ router.post('/user/login', (req, res, next) => {
 
 
 router.get('/main', passport.authenticate('jwt', {session: false}), (req, res) => {
-    return res.sendStatus(200)
+    User.findOne({username: req.user.username}).then((user) => {
+        if (!user) {
+            return res.status(401).json({ message: "User not found" })
+        } else {
+            return res.status(200).json({user})
+        }
+
+    })
 })
 
 module.exports = router;
