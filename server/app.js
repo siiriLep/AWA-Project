@@ -6,6 +6,7 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var api = require('./routes/api');
 var cors = require('cors')
+var passport = require('passport');
 
 var app = express();
 
@@ -14,6 +15,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(passport.initialize());
+
 
 const mongoose = require("mongoose");
 const mongoDB = "mongodb://127.0.0.1:27017/testdb"

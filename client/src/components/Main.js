@@ -1,8 +1,36 @@
 import Button from '@mui/material/Button'; 
 import '../Main.css';
-
+import {useEffect} from 'react'
 
 function Main() {
+
+  useEffect(() => {
+    const auth_token = localStorage.getItem('auth_token')
+
+    if (!auth_token) {
+      console.log("no token :((")
+      window.location.href = "/";
+    } else {
+      fetch('api/main', {
+        method: "GET",
+        headers: {
+          "authorization": "Bearer " + auth_token
+        },
+        mode: "cors"
+      })
+      .then(response => {
+        console.log(response);
+        if (response.status === 401) {
+          console.log("auth token incorrect!!")
+          localStorage.removeItem("auth_token")
+          window.location.href = "/";
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      })
+    }
+  }, []);
 
     const logout = () => {
         localStorage.removeItem("auth_token")

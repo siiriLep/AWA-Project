@@ -3,7 +3,30 @@ var router = express.Router();
 const User = require('../models/User');
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
-const passport = require('passport')
+
+const JWTstrategy = require('passport-jwt').Strategy;
+const ExtractJWT = require('passport-jwt').ExtractJwt;
+const passport = require('passport');
+const { token } = require('morgan');
+var opts = {};
+opts.jwtFromRequest = ExtractJWT.fromAuthHeaderAsBearerToken();
+opts.secretOrKey = 'TOP_SECRET';
+
+passport.use(
+    new JWTstrategy(opts, function (jwt_payload, done) {
+        User.findOne({ email: jwt_payload.email })
+            .then((user) => {
+                if (user) {
+                    return done(null, user);
+                } else {
+                    return done(null, false);
+                }
+            })
+            .catch((err) => {
+                return done(err, false);
+            });
+    })
+);
 
 
 router.post('/user/register', (req, res, next) => {
@@ -45,8 +68,11 @@ router.post('/user/login', (req, res, next) => {
                     throw err
                 }
                 if (isMatch) {  
-                    const body = { _id: user._id, email: user.email };
-                    const token = jwt.sign({ user: body }, 'TOP_SECRET');
+                    const jwtPayload = {
+                        email: user.email,
+                    }
+                    console.log(jwtPayload)
+                    const token = jwt.sign(jwtPayload, 'TOP_SECRET');
                     return res.json({ token });
                     //return res.status(200).json({ message: "Success"})
                 } else { // Send message to user if the password is wrong
@@ -60,7 +86,7 @@ router.post('/user/login', (req, res, next) => {
 
 
 router.get('/main', passport.authenticate('jwt', {session: false}), (req, res) => {
-    return res.status(200).json({email: req.user.email})
+    return res.sendStatus(200)
 })
 
 module.exports = router;
