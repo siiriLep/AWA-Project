@@ -1,4 +1,5 @@
 import './App.css';
+import Find from './components/Find';
 import Header from './components/Header';
 import Login from './components/Login';
 import Main from './components/Main';
@@ -18,6 +19,7 @@ function App() {
           <Route path="/register" element={<div> <Header /> <Register /></div>}> </Route>
           <Route path="/main" element={<div> <Header /> <Main /></div>}> </Route>
           <Route path="/profile" element={<div> <Header /> <Profile /></div>}> </Route>
+          <Route path="/find" element={<div> <Header /> <Find /></div>}> </Route>
         </Routes>
       </Router>
     </div>

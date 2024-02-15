@@ -7,7 +7,6 @@ import { useNavigate } from "react-router-dom";
 
 
 function Main() {
-  //const [username, setUsername] = useState('');
   const [userData, setUserData] = useState({});
 
   useEffect(() => {
@@ -32,9 +31,6 @@ function Main() {
         } else {
           response.json()
           .then((data) =>{
-            /*let username = data.user.username
-            console.log(data)
-            setUsername(username)*/
             let userData = data.user
             console.log(userData)
             setUserData(userData)
@@ -62,7 +58,7 @@ function Main() {
 
   return (
     <div id="main">
-        <h1>Welcome !</h1>
+        <h1>Welcome {userData.username}!</h1>
 
         <a href="/chat">
         <Button variant="contained" type="button" id="btn" style={{background: '#ffb7a8', minWidth: '277px', color:"black"}} >Chats</Button>
