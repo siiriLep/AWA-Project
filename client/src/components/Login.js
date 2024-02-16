@@ -45,7 +45,7 @@ function Login() {
 
     <div>
         <br></br>
-        <form id="login" onSubmit={submit} onChange={handleChange}>
+        <form id="login-form" onSubmit={submit} onChange={handleChange}>
             <h1>Log in</h1>
             <TextField id="email" label="Email" name="email" variant="outlined" margin="normal" required InputProps={{
                         startAdornment: (

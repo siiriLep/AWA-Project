@@ -97,4 +97,31 @@ router.get('/main', passport.authenticate('jwt', {session: false}), (req, res) =
     })
 })
 
+router.post('/user/about', (req, res, next) => {
+
+    User.findOne({username: req.body.username}).then((user) => {
+        if (!user) {
+            return res.status(401).json({ message: "Very weird error" })
+        } else {
+            user.about = req.body.about
+            user.save()
+            console.log(user)
+            return res.status(200).json({ message: user.about })
+        }
+    })
+
+})
+
+router.post('/user/info', (req, res, next) => {
+    console.log(req.body)
+    User.findOne({username: req.body.username}).then((user) =>{
+        about = user.about
+        console.log(about)
+        return res.status(200).json({ message: about })
+
+    })
+
+
+})
+
 module.exports = router;
