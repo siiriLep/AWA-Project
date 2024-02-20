@@ -62,7 +62,8 @@ function Profile() {
       } 
     })
   }
-
+  
+  // UI
   return (
     <div id="main">
       <a href="/main">

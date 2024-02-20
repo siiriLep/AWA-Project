@@ -27,12 +27,14 @@ function Login() {
     })
     .then(response => response.json())
     .then(data => {
+      // if creating token was succesful, store it and redirect user to main page
       if(data.token) {
         storeToken(data.token)
         window.location.href="/main"
-
+      } else {
+        // if there were problems, show error message to user
+        responseDiv.textContent = data.message
       }
-      //responseDiv.textContent = data.message
     })
 
   }
@@ -41,12 +43,14 @@ function Login() {
       setUserData({...userData, [e.target.name]: e.target.value})
   }
   
+    // UI
   return (
-
     <div>
         <br></br>
+            {/* Form for submitting login information */}
         <form id="login-form" onSubmit={submit} onChange={handleChange}>
             <h1>Log in</h1>
+            {/* Email */}
             <TextField id="email" label="Email" name="email" variant="outlined" margin="normal" required InputProps={{
                         startAdornment: (
                           <InputAdornment position="start">
@@ -54,6 +58,7 @@ function Login() {
                           </InputAdornment>
                         ),
                       }} />
+            {/* Password */}
             <TextField id="outlined-password-input" type='password' name="password" label="Password" variant="outlined" margin="normal" required InputProps={{
                         startAdornment: (
                           <InputAdornment position="start">
@@ -62,9 +67,11 @@ function Login() {
                         ),
                       }} />
             <br></br>
+            {/* Button for logging in*/}
             <Button variant="contained" type="submit" id="login" style={{background: '#ffb7a8', minWidth: '277px', color:"black"}} >Log in</Button>
             <div id="response"></div>
             <p>New to Tinteri?</p>
+            {/* Link to register page */}
             <a href="/register">
             <Button variant="contained" type="button" id="signup" style={{background: '#ffb7a8', minWidth: '277px', color:"black"}} >Sign up</Button>
             </a>
@@ -74,10 +81,9 @@ function Login() {
   )
 }
 
-
+// Stores the token
 function storeToken(token) {
   localStorage.setItem("auth_token", token);
-  console.log(token)
 }
 
 export default Login

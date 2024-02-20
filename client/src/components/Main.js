@@ -55,7 +55,7 @@ function Main() {
         window.location.href = "/";
     }
 
-
+  // UI
   return (
     <div id="main">
         <h1>Welcome {userData.username}!</h1>

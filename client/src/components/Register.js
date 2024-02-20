@@ -44,13 +44,15 @@ function Register() {
   }
 
 
-  // Returns the register form
+  // UI
   return (
 
     <div>
         <br></br>
-        <form id="register" onSubmit={submit} onChange={handleChange}>
+        {/* Form for signing in */}
+        <form id="login-form" onSubmit={submit} onChange={handleChange}>
             <h1>Sign in</h1>
+            {/* Username input */}
             <TextField id="user" label="Username" name="username" variant="outlined" margin="normal" required InputProps={{
                         startAdornment: (
                           <InputAdornment position="start">
@@ -58,6 +60,7 @@ function Register() {
                           </InputAdornment>
                         ),
                       }} />
+            {/* Email input */}          
             <TextField id="email" label="Email" name="email" variant="outlined" margin="normal" required InputProps={{
                         startAdornment: (
                           <InputAdornment position="start">
@@ -65,6 +68,7 @@ function Register() {
                           </InputAdornment>
                         ),
                       }} />
+            {/* Password input */}
             <TextField id="outlined-password-input" type='password' name="password" label="Password" variant="outlined" margin="normal" required InputProps={{
                         startAdornment: (
                           <InputAdornment position="start">
@@ -73,9 +77,11 @@ function Register() {
                         ),
                       }} />
             <br></br>
+            {/* Button to send the form */}
             <Button variant="contained" type="submit" id="register" style={{background: '#ffb7a8', minWidth: '277px', color:"black"}} >Sign in</Button>
             <div id="response"></div>
             <p>Already a user?</p>
+            {/* Link to login page */}
             <a href="/">
             <Button variant="contained" type="button" id="login-redirect" style={{background: '#ffb7a8', minWidth: '277px', color:"black"}} >Log in</Button>
             </a>

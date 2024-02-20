@@ -71,6 +71,7 @@ router.post('/user/login', (req, res, next) => {
                 if (isMatch) {  
                     const jwtPayload = {
                         email: user.email,
+                        username: user.username
                     }
                     console.log(jwtPayload)
                     const token = jwt.sign(jwtPayload, 'TOP_SECRET');
@@ -109,7 +110,6 @@ router.post('/user/about', (req, res, next) => {
             return res.status(200).json({ message: user.about })
         }
     })
-
 })
 
 router.post('/user/info', (req, res, next) => {
@@ -120,8 +120,60 @@ router.post('/user/info', (req, res, next) => {
         return res.status(200).json({ message: about })
 
     })
+})
 
+
+router.get('/random', passport.authenticate('jwt', {session: false}), (req, res) => {
+    const currentUser = req.user.username;
+    console.log(currentUser)
+
+    User.findOne({username: currentUser}).then((user) => {
+        let liked = user.liked
+        let disliked = user.removed
+
+        User.aggregate([{ $match: { username: { $ne: currentUser } } },
+            { $match: { username: { $nin: liked } } },
+            { $match: { username: { $nin: disliked } } },
+            { $sample: { size: 1 } }])
+            .then((user) => {
+            if (!user) {
+                return res.status(500).json({message: 'No more users'})
+            } else {
+                console.log(user)
+                return res.status(200).json(user)
+            }
+        })
+    })
 
 })
+// https://stackoverflow.com/questions/2824157/how-can-i-get-a-random-record-from-mongodb
+
+router.post('/like', passport.authenticate('jwt', {session: false}), (req, res) => {
+    console.log(req.body)
+    const currentUser = req.user.username;
+    console.log(currentUser)
+
+    // Finds the currently logged in user and adds the liked user to their 'liked' list
+    User.findOne({username: currentUser}).then((user) =>{
+        user.liked.push(req.body.username)
+        user.save()
+        return res.status(200).json({ message: "Success"})
+    })    
+})
+
+
+router.post('/dislike', passport.authenticate('jwt', {session: false}), (req, res) => {
+    console.log(req.body)
+    const currentUser = req.user.username;
+    console.log(currentUser)
+
+    // Finds the currently logged in user and adds the disliked user to their 'disliked' list
+    User.findOne({username: currentUser}).then((user) =>{
+        user.removed.push(req.body.username)
+        user.save()
+        return res.status(200).json({ message: "Success"})
+    })    
+})
+
 
 module.exports = router;
