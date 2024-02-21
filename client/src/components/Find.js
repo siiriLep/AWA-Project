@@ -12,7 +12,7 @@ function Find() {
     const auth_token = localStorage.getItem('auth_token')
     
     // ensures that data is fetched only when needed
-    useEffect(() => {
+    useEffect(() => {        
         fetchUser()
     }, []) 
 
@@ -32,6 +32,11 @@ function Find() {
             let userAbout = data[0].about
             setUsername(username)
             setAboutMessage(userAbout)
+        })
+        .catch(err => {
+            console.log(err)
+            const errorDiv = document.getElementById("error") 
+            errorDiv.textContent = 'There are no new users to show'       
         })
     }
 
@@ -85,6 +90,7 @@ function Find() {
             <div id="profile" style={{background: '#ffb7a8'}}>
                 <h1> {username} </h1>
                 <p> {userAbout} </p>
+                <div id="error"></div>
             </div>
             <div id="icons">
                 {/* Dislike button */}

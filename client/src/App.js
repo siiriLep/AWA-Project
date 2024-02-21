@@ -1,4 +1,5 @@
 import './App.css';
+import Chat from './components/Chat';
 import Find from './components/Find';
 import Header from './components/Header';
 import Login from './components/Login';
@@ -20,6 +21,7 @@ function App() {
           <Route path="/main" element={<div> <Header /> <Main /></div>}> </Route>
           <Route path="/profile" element={<div> <Header /> <Profile /></div>}> </Route>
           <Route path="/find" element={<div> <Header /> <Find /></div>}> </Route>
+          <Route path="/chat" element={<div> <Header /> <Chat /></div>}> </Route>
         </Routes>
       </Router>
     </div>

@@ -7,6 +7,7 @@ let userSchema = new Schema ({
     about: String,
     email: String,
     password: String,
+    matches: [String],
     liked: [String],
     removed: [String]
 

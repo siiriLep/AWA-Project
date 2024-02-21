@@ -176,4 +176,39 @@ router.post('/dislike', passport.authenticate('jwt', {session: false}), (req, re
 })
 
 
+// One of the codes of all time ><
+// currently matches only has username, maybe add _id if needed?
+router.get('/matches', passport.authenticate('jwt', {session: false}), (req, res) => {
+    const currentUser = req.user.username
+    // Find currently logged in users liked list and save it as 'possibleMatches'
+    User.findOne({ username: currentUser }).then(async (user) => {
+        let possibleMatches = user.liked
+        console.log(possibleMatches)
+
+        // Go through the users in possibleMatches list
+        for (let likedUser of possibleMatches) {
+            try {
+                // Find the the liked users information from the database
+                let foundUser = await User.findOne({ username: likedUser })
+                // Check if the user found from db has liked current user
+                if (foundUser && foundUser.liked.includes(currentUser)) {
+                    // Check if the users have already matched with each other
+                    if (!foundUser.matches.includes(currentUser)) {
+                        // If both have liked eachother and have not matched, add to matched list and save users
+                        foundUser.matches.push(currentUser)
+                        user.matches.push(foundUser.username)
+                        await foundUser.save()
+                        await user.save()
+                    }
+                }
+            } catch (err) {
+                console.log(err)
+            }
+        }   
+    return res.status(200).json({ message: "Success"})
+    })   
+    
+})
+
+
 module.exports = router;
