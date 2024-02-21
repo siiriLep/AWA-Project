@@ -71,10 +71,13 @@ router.post('/user/login', (req, res, next) => {
                 if (isMatch) {  
                     const jwtPayload = {
                         email: user.email,
-                        username: user.username
+                        username: user.username,
                     }
                     console.log(jwtPayload)
-                    const token = jwt.sign(jwtPayload, 'TOP_SECRET');
+                    const token = jwt.sign(jwtPayload, 'TOP_SECRET',
+                    {
+                        expiresIn: 3600
+                    })
                     return res.json({ token });
                     //return res.status(200).json({ message: "Success"})
                 } else { // Send message to user if the password is wrong
@@ -205,10 +208,16 @@ router.get('/matches', passport.authenticate('jwt', {session: false}), (req, res
                 console.log(err)
             }
         }   
-    return res.status(200).json({ message: "Success"})
+    //onsole.log(user.matches)
+    return res.status(200).json({ matches: user.matches})
     })   
     
 })
 
+
+router.get('/chat/:user', (req, res) => {
+    console.log(":)")
+    return res.status(200).json({ message: "Success"})
+})
 
 module.exports = router;

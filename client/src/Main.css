@@ -5,7 +5,7 @@
     border-radius: 25px;
     padding: 30px;
     background-color: #fed4cd;
-    max-width: 370px;
+    max-width: 320px;
     min-height: 500px;
     max-height: 520px;
     box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px; /*https://getcssscan.com/css-box-shadow-examples #37*/
@@ -32,4 +32,13 @@
 #iconBtn {
     margin-left: 50px;
     margin-right:50px  
+}
+
+
+
+.chats {
+    padding: 10px;
+    border-radius: 25px;
+    min-height: 400px;
+
 }

@@ -14,7 +14,7 @@ function Find() {
     // ensures that data is fetched only when needed
     useEffect(() => {        
         fetchUser()
-    }, []) 
+    }, [fetchUser]) 
 
     // fetches random user from db and shows it to user
     function fetchUser() {
@@ -92,14 +92,14 @@ function Find() {
                 <p> {userAbout} </p>
                 <div id="error"></div>
             </div>
-            <div id="icons">
+            <div id="icons" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 {/* Dislike button */}
                 <IconButton onClick={dislike}>
-                    <CloseOutlinedIcon id="iconBtn" sx={{ fontSize: 60}}/>
+                    <CloseOutlinedIcon id="iconBtn" sx={{ fontSize: 40}}/>
                 </IconButton>
                 {/* Like button */}
                 <IconButton onClick={like}>
-                    <FavoriteBorderOutlinedIcon id="iconBtn" sx={{ fontSize: 60, color:'#ff775c' }}/>
+                    <FavoriteBorderOutlinedIcon id="iconBtn" sx={{ fontSize: 40, color:'#ff775c' }}/>
                 </IconButton>
             </div>
         </div>

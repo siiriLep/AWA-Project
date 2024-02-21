@@ -69,6 +69,7 @@ function Login() {
             <br></br>
             {/* Button for logging in*/}
             <Button variant="contained" type="submit" id="login" style={{background: '#ffb7a8', minWidth: '277px', color:"black"}} >Log in</Button>
+            {/* Shows user an error message*/}
             <div id="response"></div>
             <p>New to Tinteri?</p>
             {/* Link to register page */}
