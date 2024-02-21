@@ -19,7 +19,7 @@ app.use(passport.initialize());
 
 
 const mongoose = require("mongoose");
-const mongoDB = "mongodb://127.0.0.1:27017/testdb"
+const mongoDB = "mongodb://127.0.0.1:27017/project"
 mongoose.connect(mongoDB)
 mongoose.Promise = Promise
 const db = mongoose.connection

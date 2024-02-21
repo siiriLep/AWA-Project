@@ -5,8 +5,11 @@ import SendIcon from '@mui/icons-material/Send';
 import { useParams } from 'react-router-dom';
 
 function ChatView() {
+    const auth_token = localStorage.getItem('auth_token')   
     const { user } = useParams();
     console.log(user)
+
+
   return (
     <div id="main">
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>

@@ -1,6 +1,8 @@
 var express = require('express');
 var router = express.Router();
 const User = require('../models/User');
+const Chat = require('../models/Chat');
+const Message = require('../models/Message');
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 
@@ -200,6 +202,10 @@ router.get('/matches', passport.authenticate('jwt', {session: false}), (req, res
                         // If both have liked eachother and have not matched, add to matched list and save users
                         foundUser.matches.push(currentUser)
                         user.matches.push(foundUser.username)
+                        Chat.create({
+                            users: [foundUser.username, currentUser],
+                            messages: []
+                        })
                         await foundUser.save()
                         await user.save()
                     }
