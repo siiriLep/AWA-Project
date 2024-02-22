@@ -4,9 +4,7 @@ const Schema = mongoose.Schema;
 
 let messageSchema = new Schema ({
     sender: String,
-    message: String,
-    time: Number
-
+    message: String
 })
 
 module.exports = mongoose.model("messages", messageSchema);

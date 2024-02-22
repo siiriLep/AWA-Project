@@ -221,9 +221,12 @@ router.get('/matches', passport.authenticate('jwt', {session: false}), (req, res
 })
 
 
+
+
+/*
 router.get('/chat/:user', (req, res) => {
     console.log(":)")
     return res.status(200).json({ message: "Success"})
-})
+})*/
 
 module.exports = router;
