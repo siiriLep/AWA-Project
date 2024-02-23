@@ -31,10 +31,6 @@ passport.use(
   })
 );
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
-});
 
 router.post('/sendMessage', passport.authenticate('jwt', {session: false}), (req, res) => {
   // get the user sending and the user receiving the message from request

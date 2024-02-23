@@ -8,7 +8,7 @@ import { useState, useEffect } from 'react';
 
 function Profile() {
 
-  // User information is  got from main.js by using location /state
+  // User information is  got from main.js by using location /state. This is .. well one way to do it, realised later that i propably should have used JWT
   const location = useLocation()
 
   const [userAbout, setUserAbout] = useState('')
