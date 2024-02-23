@@ -19,3 +19,16 @@
 
 }
 
+#msgDiv {
+    background-color: #fddbbf;
+    padding: 2px;
+    margin: 5px;
+    border-radius: 10px;
+
+}
+
+#messages-container {
+    max-height: 330px; 
+    overflow-y: auto;
+    
+}

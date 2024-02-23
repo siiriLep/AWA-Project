@@ -1,8 +1,6 @@
 import { useEffect, useState } from 'react'
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace'
 import IconButton from '@mui/material/IconButton'
-import Pagination from '@mui/material/Pagination'
-import Stack from '@mui/material/Stack'
 import Button from '@mui/material/Button'
 
 function Chat() {
@@ -40,26 +38,6 @@ function Chat() {
         ));
     }
     
-    /*
-    function selectChat(match) {
-        const auth_token = localStorage.getItem('auth_token')
-        fetch(`api/chat/${match}`, {
-            method: "GET",
-            headers: {
-                "authorization": "Bearer " + auth_token
-            },
-            mode: "cors"
-        })
-        .then(response => response.json())
-        .then(data => {
-            console.log(data)
-        })
-        .catch(err => {
-            console.log(err)
-        })
-    }*/
-
-    
 
     return (
         <div id="main">
@@ -74,11 +52,8 @@ function Chat() {
             <div className="chats">
                 {renderMatches()}
             </div>
-            <Stack spacing={2}>
-                <Pagination count={10} siblingCount={0} />
-            </Stack>
         </div>
     )
 }
 
-export default Chat;
+export default Chat; 

@@ -5,42 +5,47 @@ import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlin
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 import { useState, useEffect } from 'react';
 
+const auth_token = localStorage.getItem('auth_token');
+
+
+const fetchUser = () => {
+    return fetch("api/random", {
+        method: "GET",
+        headers: {
+            "authorization": "Bearer " + auth_token
+        },
+        mode: "cors"
+    })
+    .then(response => response.json())
+    .catch(err => {
+        console.log(err);
+    });
+};
 
 function Find() {
-    const [userAbout, setAboutMessage] = useState('')
-    const [username, setUsername] = useState('')
-    const auth_token = localStorage.getItem('auth_token')
-    
+
+    const [userAbout, setAboutMessage] = useState('');
+    const [username, setUsername] = useState('');
+
     // ensures that data is fetched only when needed
     useEffect(() => {        
         fetchUser()
-    }, [fetchUser]) 
-
-    // fetches random user from db and shows it to user
-    function fetchUser() {
-        fetch("api/random", {
-            method: "GET",
-            headers: {
-                "authorization": "Bearer " + auth_token
-            },
-            mode: "cors"
-        })
-        .then(response => response.json())
         .then(data => {
             // Extract username and about section and update states
-            let username = data[0].username
-            let userAbout = data[0].about
-            setUsername(username)
-            setAboutMessage(userAbout)
+            let fetchedUsername = data[0].username;
+            let fetchedUserAbout = data[0].about;
+            setUsername(fetchedUsername);
+            setAboutMessage(fetchedUserAbout);
+            console.log("here");
         })
         .catch(err => {
-            console.log(err)
-            const errorDiv = document.getElementById("error") 
-            errorDiv.textContent = 'There are no new users to show'       
-        })
-    }
+            console.log(err);
+            const errorDiv = document.getElementById("error");
+             errorDiv.textContent = 'No more users!'
+        });
+    }, []);
 
-    // funciton to like the displayed user
+    // function to like the displayed user
     function like() {
         fetch("api/like", {
             method: "POST",
@@ -52,13 +57,24 @@ function Find() {
         })
         .then(response => response.json())
         .then(data => {
-            console.log(data)
+            console.log(data);
             // fetch a new user after liking
             fetchUser()
-        })
-        
-
+            .then(data => {
+                let fetchedUsername = data[0].username;
+                let fetchedUserAbout = data[0].about;
+                setUsername(fetchedUsername);
+                setAboutMessage(fetchedUserAbout);
+                console.log("here");
+            })
+            .catch(err => {
+                console.log(err);
+                const errorDiv = document.getElementById("error");
+                if (errorDiv) errorDiv.textContent = err.message;
+            });
+        });
     }
+
     // function to dislike the user shown
     function dislike() {
         fetch("api/dislike", {
@@ -71,13 +87,25 @@ function Find() {
         })
         .then(response => response.json())
         .then(data => {
-            console.log(data)
+            console.log(data);
             // fetch a new user after disliking
             fetchUser()
-        })
+            .then(data => {
+                let fetchedUsername = data[0].username;
+                let fetchedUserAbout = data[0].about;
+                setUsername(fetchedUsername);
+                setAboutMessage(fetchedUserAbout);
+                console.log("here");
+            })
+            .catch(err => {
+                console.log(err);
+                const errorDiv = document.getElementById("error");
+                if (errorDiv) errorDiv.textContent = err.message;
+            });
+        });
     }
 
-      // UI
+    // UI
     return (
         <div id="main">
             {/* Back to main page */}

@@ -3,14 +3,20 @@ import IconButton from '@mui/material/IconButton'
 import TextField from '@mui/material/TextField';
 import SendIcon from '@mui/icons-material/Send';
 import { useParams } from 'react-router-dom';
-import {useState} from 'react'
+import {useState, useEffect} from 'react'
 
 function ChatView() {
+
     const auth_token = localStorage.getItem('auth_token')   
     const { user } = useParams();
-    console.log(user)
+
+
     const [msgData, setMsgData] = useState({})
 
+    useEffect(() => {
+        getChats();
+    }, [])
+    
 
 
     function sendMessage(e) {
@@ -37,12 +43,47 @@ function ChatView() {
     }
 
     function getChats() {
-        //Tudutudutudu
+        fetch("/getMessages", {
+            method: "POST",
+            headers: {
+                "authorization": "Bearer " + auth_token,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({username: user})
+        })
+        .then(response => response.json())
+        .then(messages => {
+            renderMessages(messages)   
+        })
+        .catch(err => {
+            console.log(err);
+        });
     }
+
+    function renderMessages(messages) {
+        var messagesContainer = document.getElementById("messages-container");
+        if (messages) {
+            console.log(messages);
+            var messageDivs = messages.map(function(message) {
+                var messageDiv = document.createElement("div");
+                messageDiv.id = "msgDiv"
+                messageDiv.innerHTML = "<strong>"+message.sender+"</strong> " + "<br>" + message.message;
+
+                return messageDiv;
+            });
+            
+            messageDivs.forEach(function(messageDiv) {
+                messagesContainer.appendChild(messageDiv);
+                messagesContainer.scrollTop = messagesContainer.scrollHeight
+            });
+        }
+    }
+    
+    
+
     
     const handleChange = (e) => {
         setMsgData(e.target.value)
-        console.log(msgData)
       }
     
 
@@ -59,10 +100,7 @@ function ChatView() {
             </a>      
         </div>
         <div style={{background: '#ffb7a8', height:"350px"}}>
-            <br></br>
-            <div style={{background: '#fddbbf', height:"50px", width: "100px", margin: "20px"}}></div>
-            <br></br>
-            <div style={{background: '#fddbbf', height:"50px", width: "100px", margin: "20px"}}></div>
+            <div id="messages-container"></div>
         </div>
         <form id="msg-form" onSubmit={sendMessage} >
             <TextField id="outlined-basic" variant="outlined"  name="message" multiline rows={4} onChange={handleChange}/>
