@@ -30,9 +30,10 @@ passport.use(
     })
 );
 
-
+// REGISTERING NEW USERS
 router.post('/user/register', (req, res, next) => {
-        if(!req.body.email || !req.body.password) {
+    // Check if email and password are provided
+    if(!req.body.email || !req.body.password) {
         return res.status(401).json({ message: "Fill required fields" })
     }
     // Check if user with the given email or username already exists
@@ -181,8 +182,7 @@ router.post('/dislike', passport.authenticate('jwt', {session: false}), (req, re
 })
 
 
-// One of the codes of all time ><
-// currently matches only has username, maybe add _id if needed?
+
 router.get('/matches', passport.authenticate('jwt', {session: false}), (req, res) => {
     const currentUser = req.user.username
     // Find currently logged in users liked list and save it as 'possibleMatches'
@@ -214,19 +214,10 @@ router.get('/matches', passport.authenticate('jwt', {session: false}), (req, res
                 console.log(err)
             }
         }   
-    //onsole.log(user.matches)
     return res.status(200).json({ matches: user.matches})
     })   
     
 })
 
-
-
-
-/*
-router.get('/chat/:user', (req, res) => {
-    console.log(":)")
-    return res.status(200).json({ message: "Success"})
-})*/
 
 module.exports = router;

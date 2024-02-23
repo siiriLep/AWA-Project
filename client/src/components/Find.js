@@ -5,9 +5,10 @@ import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlin
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 import { useState, useEffect } from 'react';
 
+// I had lots of problems with fetching only 1 user, which i fixed by moving fetchUser out of Find
+// which made the code a bit messy
+
 const auth_token = localStorage.getItem('auth_token');
-
-
 const fetchUser = () => {
     return fetch("api/random", {
         method: "GET",
@@ -30,18 +31,11 @@ function Find() {
     // ensures that data is fetched only when needed
     useEffect(() => {        
         fetchUser()
-        .then(data => {
-            // Extract username and about section and update states
-            let fetchedUsername = data[0].username;
-            let fetchedUserAbout = data[0].about;
-            setUsername(fetchedUsername);
-            setAboutMessage(fetchedUserAbout);
-            console.log("here");
-        })
+        .then(updateUserData)
         .catch(err => {
             console.log(err);
-            const errorDiv = document.getElementById("error");
-             errorDiv.textContent = 'No more users!'
+            let errorDiv = document.getElementById("error");
+            errorDiv.textContent = err
         });
     }, []);
 
@@ -57,20 +51,17 @@ function Find() {
         })
         .then(response => response.json())
         .then(data => {
-            console.log(data);
             // fetch a new user after liking
             fetchUser()
             .then(data => {
-                let fetchedUsername = data[0].username;
-                let fetchedUserAbout = data[0].about;
-                setUsername(fetchedUsername);
-                setAboutMessage(fetchedUserAbout);
-                console.log("here");
-            })
-            .catch(err => {
-                console.log(err);
-                const errorDiv = document.getElementById("error");
-                if (errorDiv) errorDiv.textContent = err.message;
+                console.log(data);
+                fetchUser()
+                .then(updateUserData)
+                .catch(err => {
+                    console.log(err);
+                    let errorDiv = document.getElementById("error");
+                    errorDiv.textContent = 'No more users!'
+                });
             });
         });
     }
@@ -86,23 +77,21 @@ function Find() {
             body: JSON.stringify({ username: username })
         })
         .then(response => response.json())
-        .then(data => {
-            console.log(data);
-            // fetch a new user after disliking
-            fetchUser()
-            .then(data => {
-                let fetchedUsername = data[0].username;
-                let fetchedUserAbout = data[0].about;
-                setUsername(fetchedUsername);
-                setAboutMessage(fetchedUserAbout);
-                console.log("here");
-            })
-            .catch(err => {
-                console.log(err);
-                const errorDiv = document.getElementById("error");
-                if (errorDiv) errorDiv.textContent = err.message;
-            });
+        .then(fetchUser())
+        .then(updateUserData)
+        .catch(err => {
+            console.log(err);
+            let errorDiv = document.getElementById("error");
+            errorDiv.textContent = 'No more users!'
         });
+        
+    }
+    // Updates user data
+    function updateUserData(data) {
+        let fetchedUsername = data[0].username;
+        let fetchedUserAbout = data[0].about;
+        setUsername(fetchedUsername);
+        setAboutMessage(fetchedUserAbout);
     }
 
     // UI

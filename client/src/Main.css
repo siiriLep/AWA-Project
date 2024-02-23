@@ -36,9 +36,10 @@
 
 
 
-.chats {
+#chats {
     padding: 10px;
     border-radius: 25px;
-    min-height: 400px;
+    max-height: 400px;
+    overflow-y: scroll; 
 
 }

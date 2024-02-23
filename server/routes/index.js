@@ -58,9 +58,6 @@ router.post('/sendMessage', passport.authenticate('jwt', {session: false}), (req
   })  
 })
 
-
-
-
 router.post('/getMessages', passport.authenticate('jwt', {session: false}), (req, res) => {
   const sender = req.user.username
   const receiver = req.body.username

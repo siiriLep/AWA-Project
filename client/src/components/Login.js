@@ -9,8 +9,6 @@ import {useState} from 'react'
 
 function Login() {
 
-  console.log("woow")
-
   // DIV to show the user if there are problems in logging in
   const responseDiv = document.getElementById("response")
 

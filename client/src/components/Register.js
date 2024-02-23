@@ -1,6 +1,5 @@
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button'; 
-import '../Login.css';
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
 import LockOpenOutlinedIcon from '@mui/icons-material/LockOpenOutlined';
 import InputAdornment from '@mui/material/InputAdornment';
@@ -15,9 +14,9 @@ function Register() {
 
   const [userData, setUserData] = useState({})
 
+  // Handles registeration when user submits the register form
   const submit = (e) => {
     e.preventDefault()
-
     // POST request to server with register form
     fetch("api/user/register", {
       method: "POST",
@@ -46,7 +45,6 @@ function Register() {
 
   // UI
   return (
-
     <div>
         <br></br>
         {/* Form for signing in */}
@@ -79,6 +77,7 @@ function Register() {
             <br></br>
             {/* Button to send the form */}
             <Button variant="contained" type="submit" id="register" style={{background: '#ffb7a8', minWidth: '277px', color:"black"}} >Sign in</Button>
+            {/* Shows Error messages to user */}
             <div id="response"></div>
             <p>Already a user?</p>
             {/* Link to login page */}
