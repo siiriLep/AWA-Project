@@ -1,17 +1,44 @@
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace'
 import IconButton from '@mui/material/IconButton'
+import RefreshIcon from '@mui/icons-material/Refresh';
 import TextField from '@mui/material/TextField'
 import SendIcon from '@mui/icons-material/Send'
 import { useParams } from 'react-router-dom'
 import {useState, useEffect} from 'react'
 
 function ChatView() {
-    const auth_token = localStorage.getItem('auth_token')   
+    const auth_token = localStorage.getItem('auth_token')  
     const [msgData, setMsgData] = useState({})
     // Get username from params
     const { user } = useParams();
 
+    // Fetch messages initially
     useEffect(() => {
+        // USER AUTHENTICATION
+        const auth_token = localStorage.getItem('auth_token')
+        // if there is no token, back to login page
+        if (!auth_token) {
+          window.location.href = "/";
+        } else {
+          // Authenticates the user
+          fetch('api/main', {
+            method: "GET",
+            headers: {
+              "authorization": "Bearer " + auth_token
+            },
+            mode: "cors"
+          })
+          .then(response => {
+            // if tokens value is incorrect, remove the token and go back to login-page
+            if (response.status === 401) {
+              localStorage.removeItem("auth_token")
+              window.location.href = "/";
+            } 
+          })
+          .catch(error => {
+            console.log(error);
+          })
+        }
         getChats()
     }, [])
 
@@ -22,6 +49,7 @@ function ChatView() {
             message: msgData
         }
         e.preventDefault() 
+        // Sends the message
         fetch("/sendMessage", {
             method: "POST",
             headers: {
@@ -30,7 +58,11 @@ function ChatView() {
             },
             body: JSON.stringify(reqBody)
         })
-        .then(response => response.json())
+        .then(response => {
+            if (response.status === 200) {
+                window.location.reload()
+            }
+        })
         .catch(err => {
             console.log(err)
         })
@@ -79,12 +111,22 @@ function ChatView() {
     const handleChange = (e) => {
         setMsgData(e.target.value)
       }
+
+    // Show user new messages
+    function refresh() {
+        // Reloads the page -> getChats is called -> New messages are rendered
+        window.location.reload()
+    }
     
   return (
     <div id="main">
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         {/* Show the user that youre chatting with */}
             <h2>{user}</h2>
+        {/* Show new messages */}
+            <IconButton onClick={refresh}>
+                <RefreshIcon/>
+            </IconButton>
         {/* Link to chat page */}
             <a href="/chat">
             <IconButton>
@@ -98,7 +140,7 @@ function ChatView() {
         </div>
         {/* Form to send messages */}
         <form id="msg-form" onSubmit={sendMessage} >
-            <TextField id="outlined-basic" variant="outlined"  name="message" multiline rows={4} onChange={handleChange}/>
+            <TextField id="outlined-basic" variant="outlined"  name="message" multiline rows={4} onChange={handleChange} />
             <IconButton type="submit">
                     <SendIcon/>
             </IconButton>

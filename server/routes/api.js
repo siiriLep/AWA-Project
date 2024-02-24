@@ -31,6 +31,7 @@ passport.use(
 
 // Used to register new users. Gets username, email and password from request body
 router.post('/user/register', (req, res) => {
+    console.log(req.body)
     // Check if email and password are provided
     if(!req.body.email || !req.body.password) {
         return res.status(401).json({ message: "Fill required fields" })
@@ -42,9 +43,14 @@ router.post('/user/register', (req, res) => {
             return res.status(403).json({ message: "Email or username already in use" })
         } else {
             // Hash and salt password with bcrypt and create a new user
-            bcrypt.genSalt(10, (salt) => {
+            bcrypt.genSalt(10, (err, salt) => {
+                if (err) {
+                    return res.status(403).json({ message: err })
+                }
                 bcrypt.hash(req.body.password, salt, (err, hash) => {
-                    if (err) throw err
+                    if (err) {
+                        return res.status(403).json({ message: err })
+                    }
                     // Create a user to the database
                     User.create({
                         username: req.body.username,
@@ -104,7 +110,7 @@ router.get('/main', passport.authenticate('jwt', {session: false}), (req, res) =
     })
 })
 
-//////////////////////////This is incredibly stupid. change it lmao ///////////////////////////////////////////////
+// Change about section
 router.post('/user/about', (req, res, next) => {
     User.findOne({username: req.body.username}).then((user) => {
         if (!user) {
@@ -112,22 +118,27 @@ router.post('/user/about', (req, res, next) => {
         } else {
             user.about = req.body.about
             user.save()
-            console.log(user)
             return res.status(200).json({ message: user.about })
         }
     })
 })
 
+// Get users about section from the database
 router.post('/user/info', (req, res, next) => {
-    console.log(req.body)
     User.findOne({username: req.body.username}).then((user) =>{
+        if (!user) {
+            return res.status(401).json({ message: "error in finding user" })
+        } else {
+        about = user.about
         about = user.about
         console.log(about)
-        return res.status(200).json({ message: about })
-
+            about = user.about
+        console.log(about)
+            return res.status(200).json({ message: about })
+        }
     })
 })
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 // Finds a random user from the database
 router.get('/random', passport.authenticate('jwt', {session: false}), (req, res) => {

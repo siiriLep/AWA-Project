@@ -7,8 +7,33 @@ function Chat() {
     // List of matches
     const [matches, setMatches] = useState([])
 
-    // Fetch matches initially
+    // User authentication and Fetch matches initially
     useEffect(() => {
+        // USER AUTHENTICATION
+        const auth_token = localStorage.getItem('auth_token')
+        // if there is no token, back to login page
+        if (!auth_token) {
+          window.location.href = "/";
+        } else {
+          // Authenticates the user
+          fetch('api/main', {
+            method: "GET",
+            headers: {
+              "authorization": "Bearer " + auth_token
+            },
+            mode: "cors"
+          })
+          .then(response => {
+            // if tokens value is incorrect, remove the token and go back to login-page
+            if (response.status === 401) {
+              localStorage.removeItem("auth_token")
+              window.location.href = "/";
+            } 
+          })
+          .catch(error => {
+            console.log(error);
+          })
+        }
         fetchMatches()
     }, [])
 

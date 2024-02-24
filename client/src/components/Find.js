@@ -28,14 +28,41 @@ function Find() {
     const [userAbout, setAboutMessage] = useState('');
     const [username, setUsername] = useState('');
 
-    // ensures that data is fetched only when needed
-    useEffect(() => {        
+    // Check authentication and fetch a random user form the db initially
+    useEffect(() => {    
+        // USER AUTHENTICATION
+        const auth_token = localStorage.getItem('auth_token')
+        // if there is no token, back to login page
+        if (!auth_token) {
+          window.location.href = "/";
+        } else {
+          // Authenticates the user
+          fetch('api/main', {
+            method: "GET",
+            headers: {
+              "authorization": "Bearer " + auth_token
+            },
+            mode: "cors"
+          })
+          .then(response => {
+            // if tokens value is incorrect, remove the token and go back to login-page
+            if (response.status === 401) {
+              localStorage.removeItem("auth_token")
+              window.location.href = "/";
+            } 
+          })
+          .catch(error => {
+            console.log(error);
+          })
+        } 
+        // Fetch a random user from the db   
         fetchUser()
+        // Show the users information
         .then(updateUserData)
         .catch(err => {
-            console.log(err);
+            console.log(err)
             let errorDiv = document.getElementById("error");
-            errorDiv.textContent = err
+            errorDiv.textContent = 'Error occured: You might have run out of users'
         });
     }, []);
 
@@ -60,7 +87,7 @@ function Find() {
                 .catch(err => {
                     console.log(err);
                     let errorDiv = document.getElementById("error");
-                    errorDiv.textContent = 'No more users!'
+                    errorDiv.textContent = 'Error occured: You might have run out of users'
                 });
             });
         });
@@ -82,7 +109,7 @@ function Find() {
         .catch(err => {
             console.log(err);
             let errorDiv = document.getElementById("error");
-            errorDiv.textContent = 'No more users!'
+            errorDiv.textContent = 'Error occured: You might have run out of users'
         });
         
     }
