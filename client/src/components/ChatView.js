@@ -21,7 +21,7 @@ function ChatView() {
           window.location.href = "/";
         } else {
           // Authenticates the user
-          fetch('api/main', {
+          fetch('/main', {
             method: "GET",
             headers: {
               "authorization": "Bearer " + auth_token
@@ -90,21 +90,26 @@ function ChatView() {
 
     // Show the fetched messages between users
     function renderMessages(messages) {
-        var messagesContainer = document.getElementById("messages-container");
+        var messagesContainer = document.getElementById("messages-container")
         if (messages) {
             // For every message, create a div that has the message and the senders name in it
             var messageDivs = messages.map(function(message) {
-                var messageDiv = document.createElement("div");
+                // Make timestamp into a date object
+                let timestamp = new Date(message.timestamp)
+                // returns date in local timezone
+                let formattedDate = timestamp.toLocaleString()
+                //Create the message
+                var messageDiv = document.createElement("div")
                 messageDiv.id = "msgDiv"
-                messageDiv.innerHTML = "<strong>"+message.sender+"</strong> " + "<br>" + message.message;
-                return messageDiv;
-            });
+                messageDiv.innerHTML = "<strong>"+message.sender+"</strong> " + "<br>" + message.message +"<br>"+ formattedDate
+                return messageDiv
+            })
             // Add messages to messagecontainer
             messageDivs.forEach(function(messageDiv) {
-                messagesContainer.appendChild(messageDiv);
+                messagesContainer.appendChild(messageDiv)
                 // Show the latest message
                 messagesContainer.scrollTop = messagesContainer.scrollHeight
-            });
+            })
         }
     }
     

@@ -65,7 +65,7 @@ function Chat() {
                 <Button id={match} variant="contained" type="button"  style={{background: '#ffb7a8', minWidth: '277px', color:"black", margin:"5px", padding:"20px"}}>{match}</Button>
                 </a>
             </div>
-        ));
+        ))
     }
     
 

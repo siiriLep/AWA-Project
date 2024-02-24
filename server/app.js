@@ -3,7 +3,6 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
 var api = require('./routes/api');
 var cors = require('cors')
 var passport = require('passport');
@@ -16,7 +15,6 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(passport.initialize());
-//require('./auth/auth');
 
 
 const mongoose = require("mongoose");
@@ -36,6 +34,5 @@ if (process.env.NODE_ENV === "development") {
 
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
 app.use('/api', api)
 module.exports = app;

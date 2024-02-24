@@ -47,17 +47,22 @@ router.post('/sendMessage', passport.authenticate('jwt', {session: false}), (req
     })
     .then(newMsg => {
       // Push the message to the chat document
-      chat.messages.push({sender: newMsg.sender, message: newMsg.message});
+      //chat.messages.push({sender: newMsg.sender, message: newMsg.message});
+      console.log("uusi viesti")
+      console.log({newMsg})
+      chat.messages.push(newMsg)
       chat.save()
       return res.status(200).json({ message: "Success"})
     })
   })  
 })
 
+// Gets all the messages in a chat
 router.post('/getMessages', passport.authenticate('jwt', {session: false}), (req, res) => {
   const sender = req.user.username
   const receiver = req.body.username
 
+  // Finds a chat wich contains both users, sender and receiver
   Chat.findOne({ users: { $all: [sender, receiver] }}).then(chat => {
     messages = chat.messages
     console.log(messages)
@@ -66,6 +71,17 @@ router.post('/getMessages', passport.authenticate('jwt', {session: false}), (req
 
 })
 
+// Checks if the JWT contains the correct information
+router.get('/main', passport.authenticate('jwt', {session: false}), (req, res) => {
+  User.findOne({username: req.user.username}).then((user) => {
+      if (!user) {
+          return res.status(401).json({ message: "User not found" })
+      } else {
+          return res.status(200).json({user})
+      }
+
+  })
+})
 
 
 
