@@ -5,6 +5,8 @@ import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
 import LockOpenOutlinedIcon from '@mui/icons-material/LockOpenOutlined';
 import InputAdornment from '@mui/material/InputAdornment';
 import {useState} from 'react'
+import '../i18n';
+import { useTranslation } from 'react-i18next';
 
 
 function Login() {
@@ -47,6 +49,11 @@ function Login() {
   const handleChange = (e) => {
       setUserData({...userData, [e.target.name]: e.target.value})
   }
+
+  const { t, i18n } = useTranslation();
+  const changeLanguage = (lang) => {
+      i18n.changeLanguage(lang)
+  }
   
     // UI
   return (
@@ -54,9 +61,9 @@ function Login() {
         <br></br>
             {/* Form for submitting login information */}
         <form id="login-reg-form" onSubmit={submit} onChange={handleChange}>
-            <h1>Log in</h1>
+            <h1>{t('Log in')}</h1>
             {/* Email */}
-            <TextField id="email" label="Email" name="email" variant="outlined" margin="normal" required InputProps={{
+            <TextField id="email" label={t('Email')} name="email" variant="outlined" margin="normal" required InputProps={{
                         startAdornment: (
                           <InputAdornment position="start">
                             <EmailOutlinedIcon />
@@ -64,7 +71,7 @@ function Login() {
                         ),
                       }} />
             {/* Password */}
-            <TextField id="outlined-password-input" type='password' name="password" label="Password" variant="outlined" margin="normal" required InputProps={{
+            <TextField id="outlined-password-input" type='password' name="password" label={t("Password")} variant="outlined" margin="normal" required InputProps={{
                         startAdornment: (
                           <InputAdornment position="start">
                             <LockOpenOutlinedIcon />
@@ -73,13 +80,13 @@ function Login() {
                       }} />
             <br></br>
             {/* Button for logging in*/}
-            <Button variant="contained" type="submit" id="login" style={{background: '#ffb7a8', minWidth: '277px', color:"black"}} >Log in</Button>
+            <Button variant="contained" type="submit" id="login" style={{background: '#ffb7a8', minWidth: '277px', color:"black"}} >{t('Log in')}</Button>
             {/* Shows user an error message*/}
             <div id="response"></div>
-            <p>New to Tinteri?</p>
+            <p>{t('New to Tinteri?')}</p>
             {/* Link to register page */}
             <a href="/register">
-            <Button variant="contained" type="button" id="signup" style={{background: '#ffb7a8', minWidth: '277px', color:"black"}} >Sign up</Button>
+            <Button variant="contained" type="button" id="signup" style={{background: '#ffb7a8', minWidth: '277px', color:"black"}} >{t('Sign up')}</Button>
             </a>
         </form>
     </div>
