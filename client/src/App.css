@@ -32,8 +32,6 @@ body {
   height: 100%;
   background-color: #fdebe8;
   opacity: 0.8;
-  /*background-image:  repeating-radial-gradient( circle at 0 0, transparent 0, #FFB7A8 10px ), repeating-linear-gradient( #FED4CD55, #FED4CD );*/
-
 }
 
 @keyframes App-logo-spin {

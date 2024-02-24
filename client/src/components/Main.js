@@ -31,6 +31,7 @@ function Main() {
         } else {
           response.json()
           .then((data) =>{
+            console.log(data)
             let userData = data.user
             setUserData(userData)
           })

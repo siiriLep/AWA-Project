@@ -48,7 +48,7 @@ function Register() {
     <div>
         <br></br>
         {/* Form for signing in */}
-        <form id="login-form" onSubmit={submit} onChange={handleChange}>
+        <form id="login-reg-form" onSubmit={submit} onChange={handleChange}>
             <h1>Sign in</h1>
             {/* Username input */}
             <TextField id="user" label="Username" name="username" variant="outlined" margin="normal" required InputProps={{

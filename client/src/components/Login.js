@@ -28,6 +28,7 @@ function Login() {
     .then(response => response.json())
     .then(data => {
       // if creating token was succesful, store it and redirect user to main page
+      console.log(data)
       if(data.token) {
         storeToken(data.token)
         window.location.href="/main"
@@ -36,6 +37,10 @@ function Login() {
         responseDiv.textContent = data.message
       }
     })
+    .catch(err => {
+      console.log(err)
+    })
+
 
   }
   // Handles change in the form
@@ -48,7 +53,7 @@ function Login() {
     <div>
         <br></br>
             {/* Form for submitting login information */}
-        <form id="login-form" onSubmit={submit} onChange={handleChange}>
+        <form id="login-reg-form" onSubmit={submit} onChange={handleChange}>
             <h1>Log in</h1>
             {/* Email */}
             <TextField id="email" label="Email" name="email" variant="outlined" margin="normal" required InputProps={{
@@ -84,6 +89,7 @@ function Login() {
 
 // Stores the token
 function storeToken(token) {
+  console.log(token)
   localStorage.setItem("auth_token", token);
 }
 

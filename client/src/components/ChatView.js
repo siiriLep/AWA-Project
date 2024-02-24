@@ -12,7 +12,7 @@ function ChatView() {
     // Get username from params
     const { user } = useParams();
 
-    // Fetch messages initially
+    // Fetch messages initially and authenticate
     useEffect(() => {
         // USER AUTHENTICATION
         const auth_token = localStorage.getItem('auth_token')

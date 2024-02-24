@@ -109,10 +109,10 @@ function Profile() {
       <h2>{location.state.username}</h2>
       <p>About me</p>
       {/* Show users about section */}
-      <div id="about-div"> {aboutMessage} </div>
+      <div > {aboutMessage} </div>
       {/* Form to edit about section */}
       <p>Edit your about section!</p>
-      <form id="about-form" onSubmit={submit}>
+      <form onSubmit={submit}>
         <TextField id="outlined-basic" label="About me" name="about" variant="outlined" multiline rows={4} value={userAbout} onChange={handleChange} />
         <Button id="btn" variant="contained" type="submit" style={{ background: '#ffb7a8', minWidth: '277px', color:"black" }}>Save</Button>
       </form>

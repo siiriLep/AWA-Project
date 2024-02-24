@@ -77,7 +77,7 @@ function Chat() {
             {/* Button back to main page */}
                 <a href="/main">
                 <IconButton>
-                    <KeyboardBackspaceIcon id="backBtn" />
+                    <KeyboardBackspaceIcon />
                 </IconButton>
                 </a>
             </div>

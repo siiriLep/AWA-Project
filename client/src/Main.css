@@ -1,4 +1,5 @@
 
+/* Style for the main div */
 #main {
     margin: auto;
     margin-top: 60px;
@@ -10,7 +11,7 @@
     max-height: 520px;
     box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px; /*https://getcssscan.com/css-box-shadow-examples #37*/
 }
-
+/* Styles for the buttons in Main page and profile */
 #btn {
     border-radius: 10px;
     margin-bottom: 20px;
@@ -18,28 +19,39 @@
 
 }
 
-#about {
-    font-style: italic;
-}
-
+/* Styles for user profiles in the find page */
 #profile {
     padding: 10px;
     border-radius: 25px;
     min-height: 400px;
 }
 
-
+/* Styles for buttons that have  MUI-icons in them*/
 #iconBtn {
     margin-left: 50px;
     margin-right:50px  
 }
 
 
-
+/* Makes sure that chats are scrollable */
 #chats {
     padding: 10px;
     border-radius: 25px;
     max-height: 400px;
     overflow-y: scroll; 
 
+}
+/* Makes sure that container that contains messages is scrollable */
+#messages-container {
+    max-height: 330px; 
+    overflow-y: auto; 
+}
+
+/* Styles for messages */
+#msgDiv {
+    background-color: #fddbbf;
+    padding: 2px;
+    margin: 5px;
+    border-radius: 10px;
+    word-wrap: break-word;
 }

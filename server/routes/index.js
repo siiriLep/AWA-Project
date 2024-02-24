@@ -12,7 +12,7 @@ const passport = require('passport');
 const { token } = require('morgan');
 var opts = {};
 opts.jwtFromRequest = ExtractJWT.fromAuthHeaderAsBearerToken();
-opts.secretOrKey = 'TOP_SECRET';
+opts.secretOrKey = process.env.SECRET
 
 
 passport.use(

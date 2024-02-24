@@ -104,14 +104,20 @@ function Find() {
             body: JSON.stringify({ username: username })
         })
         .then(response => response.json())
-        .then(fetchUser())
-        .then(updateUserData)
-        .catch(err => {
-            console.log(err);
-            let errorDiv = document.getElementById("error");
-            errorDiv.textContent = 'Error occured: You might have run out of users'
+        .then(data => {
+            // fetch a new user after liking
+            fetchUser()
+            .then(data => {
+                console.log(data);
+                fetchUser()
+                .then(updateUserData)
+                .catch(err => {
+                    console.log(err);
+                    let errorDiv = document.getElementById("error");
+                    errorDiv.textContent = 'Error occured: You might have run out of users'
+                });
+            });
         });
-        
     }
     // Updates user data
     function updateUserData(data) {
@@ -127,7 +133,7 @@ function Find() {
             {/* Back to main page */}
             <a href="/main">
                 <IconButton>
-                    <KeyboardBackspaceIcon id="backBtn" />
+                    <KeyboardBackspaceIcon/>
                 </IconButton>
             </a>
             {/* DIV to display username and about-section */}

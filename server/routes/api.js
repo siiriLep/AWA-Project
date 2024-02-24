@@ -11,7 +11,7 @@ const passport = require('passport');
 const { token } = require('morgan');
 var opts = {};
 opts.jwtFromRequest = ExtractJWT.fromAuthHeaderAsBearerToken();
-opts.secretOrKey = 'TOP_SECRET';
+opts.secretOrKey = process.env.SECRET
 
 passport.use(
     new JWTstrategy(opts, function (jwt_payload, done) {
@@ -83,11 +83,12 @@ router.post('/user/login', (req, res) => {
                         email: user.email,
                         username: user.username,
                     }
-                    const token = jwt.sign(jwtPayload, 'TOP_SECRET',
+                    const token = jwt.sign(jwtPayload, process.env.SECRET,
                     // Token expires in an hour
                     {
                         expiresIn: 3600
                     })
+                    console.log({token})
                     return res.json({ token });
                 } else { // Send message to user if the password is wrong
                     return res.status(401).json({ message: "Invalid credentials" })
