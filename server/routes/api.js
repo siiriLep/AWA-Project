@@ -4,6 +4,7 @@ const User = require('../models/User');
 const Chat = require('../models/Chat');
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
+const { body, validationResult } = require("express-validator");
 
 const JWTstrategy = require('passport-jwt').Strategy;
 const ExtractJWT = require('passport-jwt').ExtractJwt;
@@ -30,8 +31,19 @@ passport.use(
 );
 
 // Used to register new users. Gets username, email and password from request body
-router.post('/user/register', (req, res) => {
-    console.log(req.body)
+router.post('/user/register',
+    // Express validator is used to check if password is strong enough
+    body("password").isLength({ min: 8 }),
+    body("password").matches(/.*[a-z].*/),
+    body("password").matches(/.*[A-Z].*/),
+    body("password").matches(/.*[0-9].*/),
+    body("password").matches(/.*[~`!@#$%^&*()-_+={}[\]|\\;:"<>,./?].*/),
+    (req, res,) => {
+        const errors = validationResult(req);
+        // If there are errors, password is not strong
+        if (!errors.isEmpty()) {
+            return res.status(403).json({ message: "Password is not strong enough" });
+        }
     // Check if email and password are provided
     if(!req.body.email || !req.body.password) {
         return res.status(401).json({ message: "Fill required fields" })
@@ -65,6 +77,8 @@ router.post('/user/register', (req, res) => {
     })
 
 })
+
+
 
 // Used to log in users. Gets email and password from request body
 router.post('/user/login', (req, res) => {

@@ -47,9 +47,6 @@ router.post('/sendMessage', passport.authenticate('jwt', {session: false}), (req
     })
     .then(newMsg => {
       // Push the message to the chat document
-      //chat.messages.push({sender: newMsg.sender, message: newMsg.message});
-      console.log("uusi viesti")
-      console.log({newMsg})
       chat.messages.push(newMsg)
       chat.save()
       return res.status(200).json({ message: "Success"})
