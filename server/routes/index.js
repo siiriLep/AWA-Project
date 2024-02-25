@@ -31,12 +31,11 @@ passport.use(
   })
 );
 
-
+//Adds new messages to db
 router.post('/sendMessage', passport.authenticate('jwt', {session: false}), (req, res) => {
   // get the user sending and the user receiving the message from request
   const sender = req.user.username
   const receiver = req.body.username
-  console.log(req.body.message)
 
   // Find Chat document where users list contains the sender and the receiver
   Chat.findOne({ users: { $all: [sender, receiver] }}).then((chat) => {
@@ -59,7 +58,7 @@ router.post('/getMessages', passport.authenticate('jwt', {session: false}), (req
   const sender = req.user.username
   const receiver = req.body.username
 
-  // Finds a chat wich contains both users, sender and receiver
+  // Finds a chat wich contains both users (sender and receiver)
   Chat.findOne({ users: { $all: [sender, receiver] }}).then(chat => {
     messages = chat.messages
     console.log(messages)

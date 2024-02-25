@@ -10,14 +10,11 @@ import { useTranslation } from 'react-i18next';
 export default function Header() {
   // 'Basic App bar' taken from mui.com ->  https://mui.com/material-ui/react-app-bar/
 
-
-
+    // Translation
     const { t, i18n } = useTranslation();
     const changeLanguage = (lang) => {
         i18n.changeLanguage(lang)
     }
-
-
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" style={{background: '#ffb7a8'}}>

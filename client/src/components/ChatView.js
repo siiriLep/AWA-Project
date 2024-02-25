@@ -91,6 +91,8 @@ function ChatView() {
     // Show the fetched messages between users
     function renderMessages(messages) {
         var messagesContainer = document.getElementById("messages-container")
+        // Clear existing messages
+        messagesContainer.innerHTML = "";
         if (messages) {
             // For every message, create a div that has the message and the senders name in it
             var messageDivs = messages.map(function(message) {

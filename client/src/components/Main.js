@@ -6,17 +6,15 @@ import { useNavigate } from "react-router-dom";
 import '../i18n';
 import { useTranslation } from 'react-i18next';
 
-
-
-
 function Main() {
   const [userData, setUserData] = useState({});
 
+  // User authentication
   useEffect(() => {
     const auth_token = localStorage.getItem('auth_token')
     // if there is no token, back to login page
     if (!auth_token) {
-      window.location.href = "/";
+      window.location.href = "/"
     } else {
       // Authenticates the user
       fetch('api/main', {
@@ -30,7 +28,7 @@ function Main() {
         // if tokens value is incorrect, remove the token and go back to login-page
         if (response.status === 401) {
           localStorage.removeItem("auth_token")
-          window.location.href = "/";
+          window.location.href = "/"
         } else {
           response.json()
           .then((data) =>{
@@ -42,11 +40,12 @@ function Main() {
         }
       })
       .catch(error => {
-        console.log(error);
+        console.log(error)
       })
     }
-  }, []);
+  }, [])
 
+    // Uses states to show username in profile
     const navigate = useNavigate()
     function handleClick() {
       navigate('/profile', { state: userData })
@@ -55,7 +54,7 @@ function Main() {
     // When user wants to log out, remove token and redirect to login page
     const logout = () => {
         localStorage.removeItem("auth_token")
-        window.location.href = "/";
+        window.location.href = "/"
     }
 
       // Translation

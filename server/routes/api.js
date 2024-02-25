@@ -132,6 +132,7 @@ router.post('/user/about', (req, res, next) => {
             return res.status(401).json({ message: "error in finding user" })
         } else {
             user.about = req.body.about
+            // Save changes to db
             user.save()
             return res.status(200).json({ message: user.about })
         }
@@ -144,11 +145,7 @@ router.post('/user/info', (req, res, next) => {
         if (!user) {
             return res.status(401).json({ message: "error in finding user" })
         } else {
-        about = user.about
-        about = user.about
-        console.log(about)
             about = user.about
-        console.log(about)
             return res.status(200).json({ message: about })
         }
     })
@@ -158,11 +155,11 @@ router.post('/user/info', (req, res, next) => {
 // Finds a random user from the database
 router.get('/random', passport.authenticate('jwt', {session: false}), (req, res) => {
     const currentUser = req.user.username;
-    // Find current users liked and disliked users from the database
+    // Find current users liked and disliked users lists from the database
     User.findOne({username: currentUser}).then((user) => {
         let liked = user.liked
         let disliked = user.removed
-        // Finds a random user      that is not equal to current user 
+        // Finds a random user that is not current user 
         User.aggregate([{ $match: { username: { $ne: currentUser } } },
             { $match: { username: { $nin: liked } } }, // User that is not in the current users liked list
             { $match: { username: { $nin: disliked } } }, // User that is not in the current users disliked list

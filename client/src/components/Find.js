@@ -78,19 +78,15 @@ function Find() {
         })
         .then(response => response.json())
         .then(data => {
-            // fetch a new user after liking
+            // After disliking, fetches a new random user and shows it
             fetchUser()
-            .then(data => {
-                console.log(data);
-                fetchUser()
-                .then(updateUserData)
-                .catch(err => {
-                    console.log(err);
-                    let errorDiv = document.getElementById("error");
-                    errorDiv.textContent = 'Error occured: You might have run out of users'
-                });
-            });
-        });
+            .then(updateUserData)
+            .catch(err => {
+                console.log(err)
+                let errorDiv = document.getElementById("error")
+                errorDiv.textContent = 'Error occurred: You might have run out of users'
+            })
+        })
     }
 
     // function to dislike the user shown
@@ -105,19 +101,15 @@ function Find() {
         })
         .then(response => response.json())
         .then(data => {
-            // fetch a new user after liking
+            // After disliking, fetches a new random user and shows it
             fetchUser()
-            .then(data => {
-                console.log(data);
-                fetchUser()
-                .then(updateUserData)
-                .catch(err => {
-                    console.log(err);
-                    let errorDiv = document.getElementById("error");
-                    errorDiv.textContent = 'Error occured: You might have run out of users'
-                });
-            });
-        });
+            .then(updateUserData)
+            .catch(err => {
+                console.log(err)
+                let errorDiv = document.getElementById("error")
+                errorDiv.textContent = 'Error occurred: You might have run out of users'
+            })
+        })
     }
     // Updates user data
     function updateUserData(data) {

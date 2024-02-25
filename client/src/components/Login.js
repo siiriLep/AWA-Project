@@ -30,7 +30,6 @@ function Login() {
     .then(response => response.json())
     .then(data => {
       // if creating token was succesful, store it and redirect user to main page
-      console.log(data)
       if(data.token) {
         storeToken(data.token)
         window.location.href="/main"
