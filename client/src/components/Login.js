@@ -50,6 +50,7 @@ function Login() {
       setUserData({...userData, [e.target.name]: e.target.value})
   }
 
+  // Translation
   const { t, i18n } = useTranslation();
   const changeLanguage = (lang) => {
       i18n.changeLanguage(lang)

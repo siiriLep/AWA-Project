@@ -1,6 +1,5 @@
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace'
 import IconButton from '@mui/material/IconButton'
-import RefreshIcon from '@mui/icons-material/Refresh';
 import TextField from '@mui/material/TextField'
 import SendIcon from '@mui/icons-material/Send'
 import { useParams } from 'react-router-dom'
@@ -40,6 +39,9 @@ function ChatView() {
           })
         }
         getChats()
+        // Simple polling for messages
+        const waitTime = setInterval(getChats, 5000)
+        return () => clearInterval(waitTime)
     }, [])
 
     // Function to send a message
@@ -59,9 +61,7 @@ function ChatView() {
             body: JSON.stringify(reqBody)
         })
         .then(response => {
-            if (response.status === 200) {
-                window.location.reload()
-            }
+            getChats()
         })
         .catch(err => {
             console.log(err)
@@ -116,22 +116,12 @@ function ChatView() {
     const handleChange = (e) => {
         setMsgData(e.target.value)
       }
-
-    // Show user new messages
-    function refresh() {
-        // Reloads the page -> getChats is called -> New messages are rendered
-        window.location.reload()
-    }
     
   return (
     <div id="main">
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         {/* Show the user that youre chatting with */}
             <h2>{user}</h2>
-        {/* Show new messages */}
-            <IconButton onClick={refresh}>
-                <RefreshIcon/>
-            </IconButton>
         {/* Link to chat page */}
             <a href="/chat">
             <IconButton>

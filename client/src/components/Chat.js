@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react'
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace'
 import IconButton from '@mui/material/IconButton'
 import Button from '@mui/material/Button'
+import '../i18n'
+import { useTranslation } from 'react-i18next'
 
 function Chat() {
     // List of matches
@@ -67,13 +69,19 @@ function Chat() {
             </div>
         ))
     }
+    // Translation
+    const { t, i18n } = useTranslation();
+    const changeLanguage = (lang) => {
+        i18n.changeLanguage(lang)
+    }
+      
     
 
     return (
         <div id="main">
             {/* "Header" */}
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <h2>Chats</h2>
+                <h2>{t('Chats')}</h2>
             {/* Button back to main page */}
                 <a href="/main">
                 <IconButton>

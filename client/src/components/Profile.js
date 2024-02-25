@@ -5,6 +5,8 @@ import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import IconButton from '@mui/material/IconButton';
 import { useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import '../i18n'
+import { useTranslation } from 'react-i18next'
 
 function Profile() {
 
@@ -95,6 +97,12 @@ function Profile() {
       } 
     })
   }
+
+  // Translation
+  const { t, i18n } = useTranslation();
+  const changeLanguage = (lang) => {
+      i18n.changeLanguage(lang)
+  }
   
   // UI
   return (
@@ -107,14 +115,14 @@ function Profile() {
       </a>
       {/* Shows the users name */}
       <h2>{location.state.username}</h2>
-      <p>About me</p>
+      <p>{t('About me')}</p>
       {/* Show users about section */}
       <div > {aboutMessage} </div>
       {/* Form to edit about section */}
-      <p>Edit your about section!</p>
+      <p>{t('Edit your about section!')}</p>
       <form onSubmit={submit}>
-        <TextField id="outlined-basic" label="About me" name="about" variant="outlined" multiline rows={4} value={userAbout} onChange={handleChange} />
-        <Button id="btn" variant="contained" type="submit" style={{ background: '#ffb7a8', minWidth: '277px', color:"black" }}>Save</Button>
+        <TextField id="outlined-basic" label={t('About me')} name="about" variant="outlined" multiline rows={4} value={userAbout} onChange={handleChange} />
+        <Button id="btn" variant="contained" type="submit" style={{ background: '#ffb7a8', minWidth: '277px', color:"black" }}>{t('Save')}</Button>
       </form>
     </div> 
   )

@@ -3,6 +3,9 @@ import '../Main.css';
 import {useEffect} from 'react'
 import {useState} from 'react'
 import { useNavigate } from "react-router-dom";
+import '../i18n';
+import { useTranslation } from 'react-i18next';
+
 
 
 
@@ -55,22 +58,28 @@ function Main() {
         window.location.href = "/";
     }
 
+      // Translation
+    const { t, i18n } = useTranslation();
+    const changeLanguage = (lang) => {
+      i18n.changeLanguage(lang)
+  }
+
   // UI
   return (
     <div id="main">
-        <h1>Welcome {userData.username}!</h1>
+        <h1>{t("Welcome")} {userData.username}!</h1>
         {/* Link to chat page */}
         <a href="/chat">
-        <Button variant="contained" type="button" id="btn" style={{background: '#ffb7a8', minWidth: '277px', color:"black"}} >Chats</Button>
+        <Button variant="contained" type="button" id="btn" style={{background: '#ffb7a8', minWidth: '277px', color:"black"}} >{t('Chats')}</Button>
         </a>
         {/* Link to find connections page */}
         <a href="/find">
-        <Button variant="contained" type="button" id="btn" style={{background: '#ffb7a8', minWidth: '277px', color:"black"}} >Find connections</Button>
+        <Button variant="contained" type="button" id="btn" style={{background: '#ffb7a8', minWidth: '277px', color:"black"}} >{t('Find connections')}</Button>
         </a>
         {/* Get to profile page */}
-        <Button onClick={handleClick} variant="contained" type="button" id="btn" style={{background: '#ffb7a8', minWidth: '277px', color:"black"}}>Profile</Button>
+        <Button onClick={handleClick} variant="contained" type="button" id="btn" style={{background: '#ffb7a8', minWidth: '277px', color:"black"}}> {t('Profile')}</Button>
         {/* Button to logout */}
-        <Button onClick={logout}variant="contained" type="button" id="btn" style={{background: '#ffb7a8', minWidth: '277px', color:"black"}} >Log out</Button>
+        <Button onClick={logout}variant="contained" type="button" id="btn" style={{background: '#ffb7a8', minWidth: '277px', color:"black"}} >{t('Log out')}</Button>
         
     </div>
   )
